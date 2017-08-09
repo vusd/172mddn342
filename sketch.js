@@ -56,12 +56,12 @@ var faceData = [
 var faceMapping = null;
 
 function preload () {
-  if (faceData == null) {
-    faceData = loadJSON('face_data.json');
-  }
+  extraFaceData = loadJSON('face_data.json');
 }
 
 function setup () {
+  var extraFaceDataArray = Object.values(extraFaceData);
+  Array.prototype.unshift.apply(faceData, extraFaceDataArray);
   // create the drawing canvas, save the canvas element
   main_canvas = createCanvas(canvasWidth, canvasHeight);
   main_canvas.parent('canvasContainer');
@@ -73,7 +73,7 @@ function setup () {
     facelist.push(face);
   }
 
-  mainFace = new Face();
+  mainFace = new FaceMap();
 
   for(var i=0; i<faceData.length; i++) {
    var data = faceData[i];
@@ -81,9 +81,9 @@ function setup () {
   }
 
   faceSelector = createSelect();
-  faceSelector.option('draw1');
-  faceSelector.option('draw2');
-  faceSelector.value('draw1');
+  faceSelector.option('Face');
+  faceSelector.option('FaceMap');
+  faceSelector.value('FaceMap');
   faceSelector.parent('selector1Container');
 
   // rotation in degrees
@@ -119,7 +119,7 @@ function draw () {
   noStroke();
   background(bg_color1);
 
-  if (mode == 'draw1') {
+  if (mode == 'Face') {
     var w = canvasWidth / 10;
     var h = canvasHeight / 6;
     var max_shift = 0.2 * w;
@@ -155,28 +155,33 @@ function draw () {
     var x1 = (width/4-400/2);
     var x2 = (3*width/4-400/2);
     var y1 = (height/2-400/2);
-    image(img, x1, y1);
-    image(img, x2, y1);
+    image(img, x1, y1, 400, 400);
+    image(img, x2, y1, 400, 400);
+    var scale_x = 400.0 / img.width;
+    var scale_y = 400.0 / img.height;
 
-    // get array of face marker positions [x, y] format
-    var positions = data.landmarks[0];
-    var shifted_positions = JSON.parse(JSON.stringify(positions))
+    for(var i=0; i<data.landmarks.length; i++) {
+      // get array of face marker positions [x, y] format
+      var positions = data.landmarks[i];
+      var shifted_positions = JSON.parse(JSON.stringify(positions))
 
-    noFill();
-    stroke(0);
-    Object.keys(positions).forEach(function(key) {
-      var curSection = positions[key];
-      var shiftedSection = shifted_positions[key];
-      for (var i=0; i<curSection.length; i++) {
-        ellipse(x1+curSection[i][0], y1+curSection[i][1], 4, 4);
-        // get ready for drawing the face
-        shiftedSection[i][0] = curSection[i][0] + x2;
-        shiftedSection[i][1] = curSection[i][1] + y1;
-      }
-    });
+      stroke(0);
+      fill(255);
+      Object.keys(positions).forEach(function(key) {
+        var curSection = positions[key];
+        var shiftedSection = shifted_positions[key];
+        for (var i=0; i<curSection.length; i++) {
+          var cur_x = scale_x * curSection[i][0];
+          var cur_y = scale_y * curSection[i][1];
+          ellipse(x1+cur_x, y1+cur_y, 4, 4);
+          // get ready for drawing the face
+          shiftedSection[i][0] = cur_x + x2;
+          shiftedSection[i][1] = cur_y + y1;
+        }
+      });
 
-    mainFace.randomize();
-    mainFace.draw2(shifted_positions);
+      mainFace.draw(shifted_positions);
+    }
   }
 }
 
