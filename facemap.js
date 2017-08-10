@@ -16,6 +16,10 @@ function FaceMap() {
    *    bottom_lip, top_lip, nose_tip, nose_bridge, 
    */  
   this.draw = function(positions) {
+    fill(0, 0, 255);
+    var box = bounding_box(positions);
+    rect(box[0], box[1], box[2], box[3]);      
+
     var nose_pos = average_point(positions.nose_bridge);
     var eye1_pos = average_point(positions.left_eye);
     var eye2_pos = average_point(positions.right_eye);
@@ -72,6 +76,27 @@ function FaceMap() {
     }
     endShape(CLOSE);
 
+    fill(255, 0, 0);
+    // print(positions.bottom_lip.length);
+    // for(var i=6; i<positions.bottom_lip.length;i++) {
+    //   ellipse(positions.bottom_lip[i][0], positions.bottom_lip[i][1], 5, 5);
+    // }
+    // fill(0, 255, 0);
+    // print(positions.top_lip.length);
+    // for(var i=6; i<positions.top_lip.length;i++) {
+    //   ellipse(positions.top_lip[i][0], positions.top_lip[i][1], 5, 5);
+    // }
+    beginShape();
+    for(var i=6; i<positions.bottom_lip.length;i++) {
+      vertex(positions.bottom_lip[i][0], positions.bottom_lip[i][1]);
+    }
+    for(var i=6; i<positions.top_lip.length;i++) {
+      vertex(positions.top_lip[i][0], positions.top_lip[i][1]);
+    }
+    endShape(CLOSE);
+    fill(bg_color);
+
+
     // nose
     beginShape();
     vertex(positions.nose_bridge[0][0], positions.nose_bridge[0][1]);
@@ -80,6 +105,7 @@ function FaceMap() {
     }
     endShape(CLOSE);
 
+/*
     // eyes
     beginShape();
     for(var i=0; i<positions.left_eye.length;i++) {
@@ -92,8 +118,9 @@ function FaceMap() {
     }
     endShape(CLOSE);
 
-    fill(fg_color);
-    ellipse(eye1_pos[0], eye1_pos[1], 16 * scale, 16 * scale);
+*/
+    fill(255);
+    ellipse(eye1_pos[0], eye1_pos[1], 25 * scale, 25 * scale);
     ellipse(eye2_pos[0], eye2_pos[1], 16 * scale, 16 * scale);
 
     fill(stroke_color);
@@ -122,4 +149,28 @@ function average_point(list) {
     num_points += 1; 
   }
   return [sum_x / num_points, sum_y / num_points];
+}
+
+function bounding_box(positions) {
+  var xmin=null, xmax=null, ymin=null, ymax=null;
+  for (var key in positions) {
+    var part = positions[key];
+    for (var i=0; i<part.length; i++) {
+      if(xmin == null || xmin < part[i][0]) {
+        xmin = part[i][0];
+      }
+      if(ymin == null || ymin < part[i][1]) {
+        ymin = part[i][1];
+      }
+      if(xmax == null || xmax > part[i][0]) {
+        xmax = part[i][0];
+      }
+      if(ymax == null || ymax > part[i][1]) {
+        ymax = part[i][1];
+      }
+    }
+  }
+
+  // return [x1, y1, x2, y2];
+  return [xmax, ymax, xmin-xmax, ymin-ymax];
 }

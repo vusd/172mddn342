@@ -130,8 +130,8 @@ function Face() {
 
   /*
    * Update internal state variables to a random state.
-   */  
-  this.randomize = function(values, size) {
+   */
+  this.randomize = function() {
     this.eye_value = getRandomNumberOfEyes();
     this.tilt_value = focusedRandom(-70, 90, 8);
     this.mouth_value = focusedRandom(0, 50, 4, 1);
