@@ -140,7 +140,7 @@ function FaceMap() {
     endShape(CLOSE);
     strokeWeight(1);
 
-    if(true || this.hasCrown > 50) {
+    if(this.hasCrown > 50) {
       var highest_eye_pos = eye1_pos[1];
       if (eye2_pos[1] < highest_eye_pos) {
         highest_eye_pos = eye2_pos[1]
