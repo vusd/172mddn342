@@ -12,6 +12,8 @@ stroke_color = [95, 52, 8];
 function FaceMap() {
   this.hairLength = 50;
   this.hairColor = 50;
+  this.mouthColor = 50;
+  this.hasCrown = 50;
 
   /*
    * Draw a face with position lists that include:
@@ -84,16 +86,10 @@ function FaceMap() {
     }
     endShape(CLOSE);
 
-    fill(255, 0, 0);
-    // print(positions.bottom_lip.length);
-    // for(var i=6; i<positions.bottom_lip.length;i++) {
-    //   ellipse(positions.bottom_lip[i][0], positions.bottom_lip[i][1], 5, 5);
-    // }
-    // fill(0, 255, 0);
-    // print(positions.top_lip.length);
-    // for(var i=6; i<positions.top_lip.length;i++) {
-    //   ellipse(positions.top_lip[i][0], positions.top_lip[i][1], 5, 5);
-    // }
+    // inside of mouth
+    var whiteness = map(this.mouthColor, 0, 100, 0, 255);
+    fill(255, whiteness, whiteness);
+
     beginShape();
     for(var i=6; i<positions.bottom_lip.length;i++) {
       vertex(positions.bottom_lip[i][0], positions.bottom_lip[i][1]);
@@ -142,13 +138,36 @@ function FaceMap() {
       vertex(positions.left_eyebrow[i][0], positions.left_eyebrow[i][1]);
     }
     endShape(CLOSE);
-    strokeWeight(1);  
+    strokeWeight(1);
+
+    if(true || this.hasCrown > 50) {
+      var highest_eye_pos = eye1_pos[1];
+      if (eye2_pos[1] < highest_eye_pos) {
+        highest_eye_pos = eye2_pos[1]
+      }
+      crown_bottom = highest_eye_pos - 0.2;
+      noStroke();
+      fill(140, 140, 0);
+      beginShape();
+      vertex(-2, crown_bottom);
+      vertex(2, crown_bottom);
+      vertex(2, -4);
+      vertex(0, -3);
+      vertex(-2, -4);
+      // rect(-2, -4, 4, 2);
+      endShape(CLOSE);      
+    }
+
+
+    // rect(-2, 3, 4, 3);  
   }
 
   /* set internal properties based on list numbers 0-100 */
   this.setProperties = function(settings) {
     this.hairLength = settings[0];
     this.hairColor = settings[1];
+    this.mouthColor = settings[2];
+    this.hasCrown = settings[3];
   }
 
   /* get internal properties as list of numbers 0-100 */
@@ -156,6 +175,8 @@ function FaceMap() {
     properties = new Array(2);
     properties[0] = this.hairLength;
     properties[1] = this.hairColor;
+    properties[2] = this.mouthColor;
+    properties[3] = this.hasCrown;
     return properties;
   }
 }
