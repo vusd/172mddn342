@@ -66,6 +66,7 @@ function setup () {
   }
 
   mainFace = new FaceMap();
+  littleFace = new FaceMap();
 
   for(var i=0; i<faceData.length; i++) {
     var data = faceData[i];
@@ -434,8 +435,8 @@ function draw () {
           scale(scale_x*data_scale, scale_y*data_scale);
           rotate(degrees(data_angle));
           strokeWeight(1/data_scale);
-          mainFace.setProperties(settings);
-          mainFace.draw(shifted_positions);
+          littleFace.setProperties(settings);
+          littleFace.draw(shifted_positions);
         }
         else {
           noFill();
