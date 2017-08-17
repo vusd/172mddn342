@@ -99,7 +99,7 @@ function setup () {
   faceSelector.option('FaceMap');
   faceSelector.option('Train');
   faceSelector.option('Neighbors');
-  faceSelector.value('Train');
+  faceSelector.value('Neighbors');
   faceSelector.parent('selector1Container');
 
   /* create the sliders */
@@ -551,12 +551,13 @@ function updateSlidersForTraining() {
     }
   }
 
-  if(mode == 'Neighbors') {
-    interpolateCurrent();
-  }
-  else {
-    loadCurrentSettings();
-  }
+  loadCurrentSettings();
+  // if(mode == 'Neighbors') {
+  //   interpolateCurrent();
+  // }
+  // else {
+  //   loadCurrentSettings();
+  // }
 }
 
 function keyPressed() {
