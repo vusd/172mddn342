@@ -12,6 +12,7 @@ var facelist = [];
 var NUMFACES = 6*9;
 var sliders = [];
 var NUM_SLIDERS = 12;
+var sliderTint;
 
 var faceData = [
   {"landmarks": [{"nose_bridge": [[-0.09083664800859323, -1.1331171913324525], [-0.08996869920096179, -0.7900363379039251], [-0.08910075039333033, -0.4469554844753977], [-0.08823280158569889, -0.10387463104687027]], "left_eyebrow": [[-1.4637609493587556, -1.3671629100139842], [-1.2796259928409857, -1.6051477809763048], [-0.9895271050493772, -1.6850547038354993], [-0.6727703212070726, -1.6594650524711185], [-0.38220407636520126, -1.5546361311764905]], "left_eye": [[-1.119945677708386, -1.0777316751513233], [-0.9354768947261425, -1.1837623717180563], [-0.7243502156932026, -1.1842964940612142], [-0.539147014489117, -1.0000280069576548], [-0.7238160933500448, -0.9731698150282742], [-0.9614003725549969, -0.9989597622713392]], "right_eye": [[0.49009554579646525, -1.0026318533805492], [0.6743640329000248, -1.1878350545846348], [0.9118147815191875, -1.2148267770998047], [1.0968844521374834, -1.0833399597544804], [0.9122821385694505, -1.0300909329459822], [0.6748313899502878, -1.0030992104308123]], "nose_tip": [[-0.45710360225729124, 0.1345775969657134], [-0.27223422751767934, 0.18689190967368527], [-0.06104078319184466, 0.21274862220964497], [0.12356153037618835, 0.15949959540114686], [0.3610122789953511, 0.13250787288597685]], "chin": [[-1.7000099227058132, -0.8651361596746993], [-1.7252657476057203, -0.4164252014368071], [-1.671349067868275, 0.03208546092240083], [-1.5646507183725944, 0.4804625926958193], [-1.4051706991186794, 0.9287061938834484], [-1.140327636226978, 1.297510229262146], [-0.8490937384561595, 1.666247499347949], [-0.5052784668057901, 1.95567873421061], [-0.029976377810096287, 2.060040298454975], [0.4448583541353344, 1.9796660185455173], [0.9193592596162916, 1.7673375642404725], [1.3407446688745401, 1.423188466125629], [1.6828908082025413, 1.0528488290103528], [1.8401008074980358, 0.6038040443079871], [1.9180715368632832, 0.12856872060518798], [1.9695846660565184, -0.37299067268383396], [1.9683828907844134, -0.8480257005079488]], "bottom_lip": [[0.8635731516777938, 0.5798835252659744], [0.5742754474009223, 0.9764804666745788], [0.205137585557751, 1.1093693551706925], [-0.03231316306141173, 1.1363610776858626], [-0.29622151185258666, 1.1370287306148097], [-0.5869212872802475, 0.9794181395619468], [-0.8516975848790539, 0.6370049390623667], [-0.7460674800696891, 0.6631287127699053], [-0.2704315646095217, 0.8994444514098576], [-0.03284728540456954, 0.9252343986529226], [0.2046034632145932, 0.8982426761377525], [0.8108582472124536, 0.6064078907308814]], "transform": {"angle": 0.002529861247795008, "center": [186.33333333333334, 183.94444444444446], "scale": 37.89182132672947}, "top_lip": [[-0.8516975848790539, 0.6370049390623667], [-0.5615986970874456, 0.5570980162031721], [-0.27149980929583734, 0.47719109334397775], [-0.03384876479799044, 0.52937187546616], [0.17714438364916008, 0.47605608336476735], [0.5467496025425944, 0.527903039022476], [0.8635731516777938, 0.5798835252659744], [0.8108582472124536, 0.6064078907308814], [0.17754497540652844, 0.6344010926394723], [-0.03344817304062208, 0.6877168847408651], [-0.27103245224557426, 0.6619269374978002], [-0.7460674800696891, 0.6631287127699053]], "right_eyebrow": [[0.22478512585450108, -1.556171732913069], [0.567532152818555, -1.6889938561162883], [0.9369370758333051, -1.7163194050959316], [1.2802182251405168, -1.6380148492662108], [1.5447274615677442, -1.4011649882831005]]}], "url": "z_face1.jpg", "embedding": [[-0.09812457114458084, 0.11998496949672699, 0.06276129186153412, -0.05255047231912613, -0.12243147939443588, -0.03132074326276779, -0.09414154291152954, -0.1242457777261734, 0.07002627849578857, -0.08147289603948593, 0.2814253270626068, -0.04594751447439194, -0.22189925611019135, -0.1113772839307785, -0.11815732717514038, 0.2204407900571823, -0.14725343883037567, -0.10374704003334045, -0.08243671804666519, 0.005101572722196579, 0.12012264132499695, -0.0025456342846155167, 0.0014407113194465637, 0.0015963278710842133, -0.08633701503276825, -0.33422884345054626, -0.045525021851062775, -0.03229425102472305, -0.03990006074309349, -0.06796583533287048, -0.04964607208967209, 0.027314048260450363, -0.234699085354805, -0.03814394026994705, 0.02356778085231781, 0.053027696907520294, -0.050578296184539795, -0.06693702191114426, 0.14406313002109528, 0.018536454066634178, -0.22719770669937134, 0.047739796340465546, 0.06735788285732269, 0.19067732989788055, 0.182114377617836, 0.019334735348820686, 0.054091211408376694, -0.15950612723827362, 0.13529177010059357, -0.20682178437709808, 0.021643809974193573, 0.18243306875228882, 0.07248902320861816, 0.06592673063278198, 0.015211593359708786, -0.08783256262540817, 0.03786002844572067, 0.13478770852088928, -0.09582363814115524, 0.016811812296509743, 0.11877749860286713, -0.05823524296283722, -0.0877673402428627, -0.121843121945858, 0.20835383236408234, 0.08842334151268005, -0.13640394806861877, -0.18775177001953125, 0.11289231479167938, -0.09115668386220932, -0.10935712605714798, 0.04192322492599487, -0.15002340078353882, -0.19342319667339325, -0.3086214065551758, 0.048502061516046524, 0.36910122632980347, 0.132289320230484, -0.23331473767757416, 0.03634979575872421, -0.08015844225883484, 0.0484822653234005, 0.12521624565124512, 0.12101111561059952, 0.008804835379123688, 0.0336700864136219, -0.09477405250072479, -0.01780793070793152, 0.22713540494441986, -0.07723923027515411, -0.023343967273831367, 0.264713853597641, 0.0039475541561841965, 0.061221860349178314, 0.009781097993254662, 0.019018054008483887, -0.07865786552429199, 0.0058430954813957214, -0.11374843120574951, -0.03492026403546333, 0.050761688500642776, -0.041851382702589035, -0.020709838718175888, 0.09610284864902496, -0.1072147861123085, 0.10397015511989594, -0.044768959283828735, 0.10082380473613739, 0.04071452468633652, -0.02748667635023594, -0.09102319180965424, -0.07456323504447937, 0.06832525879144669, -0.1713019609451294, 0.24891397356987, 0.14487513899803162, 0.0664646327495575, 0.06269458681344986, 0.20069821178913116, 0.09950415045022964, -0.002668582834303379, -0.016219403594732285, -0.1644577980041504, -0.06623447686433792, 0.10705346614122391, -0.022745352238416672, 0.059049054980278015, -0.034697555005550385]]},
@@ -32,6 +33,24 @@ function preload () {
   trainValues = loadJSON('train_values.json');
 }
 
+var allEmbeddingsTree;
+var allEmbeddings = [];
+var embeddingDimensions;
+var curNeighbors = [];
+
+function squaredDistance(a, b) {
+  var sum = 0;
+  var length = 128;
+  for(var i=0; i<128; i++) {
+    var diff = a[i] - b[i];
+    sum += diff * diff;
+  }
+  // print(a.length,diff);
+  // print(sum, a==b);
+  return sum;
+}
+
+var haveStarted = false;
 function setup () {
   var extraFaceDataArray = Object.values(extraFaceData);
   Array.prototype.unshift.apply(faceData, extraFaceDataArray);
@@ -47,6 +66,7 @@ function setup () {
   }
 
   mainFace = new FaceMap();
+  littleFace = new FaceMap();
 
   for(var i=0; i<faceData.length; i++) {
     var data = faceData[i];
@@ -57,14 +77,30 @@ function setup () {
   for(var i=0; i<trainDataKeys.length; i++) {
     var curKey = trainDataKeys[i];
     var data = trainData[curKey];
+    var curEmbedding = data.embedding[0];
+    if(curEmbedding.length == 128) {
+      curEmbedding.push(curKey);
+      allEmbeddings.push(curEmbedding);
+    }
+    else {
+      print("rejected embedding ", curEmbedding);
+    }
     data.image = loadImage(data.url);
   }
+  // print("Length: ", allEmbeddings.length);
+  // setup k-d tree
+  var N = allEmbeddings[0].length - 1; 
+  embeddingDimensions = Array.apply(null, {length: N}).map(Number.call, Number);  
+  // print(embeddingDimensions)
+  allEmbeddingsTree = new kdTree(allEmbeddings, squaredDistance, embeddingDimensions);
+  // print(allEmbeddingsTree)
 
   faceSelector = createSelect();
   faceSelector.option('Face');
   faceSelector.option('FaceMap');
   faceSelector.option('Train');
-  faceSelector.value('Train');
+  faceSelector.option('Neighbors');
+  faceSelector.value('Neighbors');
   faceSelector.parent('selector1Container');
 
   /* create the sliders */
@@ -75,19 +111,59 @@ function setup () {
     sliders.push(slider);
   }
 
-  /* and the load button */
-  var randButton = createButton('get values');
-  randButton.mousePressed(getJson);
-  randButton.parent('selector2Container');
+  sliderTint = createSlider(0, 100, 10);
+  sliderTint.parent("sliderTintContainer");
+
+  /* and the buttons */
+  var loadButton = createButton('load');
+  loadButton.mousePressed(loadCurrentSettings);
+  loadButton.parent('button1Container');
+
+  var interpButton = createButton('interpolate');
+  interpButton.mousePressed(interpolateCurrent);
+  interpButton.parent('button1Container');
+
+  var saveButton = createButton('save');
+  saveButton.mousePressed(saveCurrentSettings);
+  saveButton.parent('button2Container');
+
+  var getValuesButton = createButton('get values');
+  getValuesButton.mousePressed(getSingleJson);
+  getValuesButton.parent('button3Container');
+
+  var randButton = createButton('get all values');
+  randButton.mousePressed(getAllJson);
+  randButton.parent('button4Container');
 
   updateSlidersForTraining();
 
   // rotation in degrees
   angleMode(DEGREES);
+
+  haveStarted = true;
 }
 
-function getJson() {
+function saveCurrentSettings() {
+  var curKey = trainDataKeys[curTrainIndex];
   obj = mainFace.getProperties();
+  trainValues[curKey] = obj;
+  // for(var i=0; i<obj.length; i++) {
+  //   trainData[curKey][i] = obj[i];
+  // }
+  var text = select('#output');
+  text.html("Storing values for " + curKey);
+  // getAllJson();
+}
+
+function getSingleJson() {
+  obj = mainFace.getProperties();
+  var text = select('#output');
+  var json = JSON.stringify(obj, null, 2);
+  text.html(json)
+}
+
+function getAllJson() {
+  obj = trainValues;
   var text = select('#output');
   var json = JSON.stringify(obj, null, 2);
   // alert(json);
@@ -179,9 +255,24 @@ function draw () {
     var y1 = (height/2-400/2);
     image(img, x1, y1, 400, 400);
 
-    if(!do_train) {
-      image(img, x2, y1, 400, 400);
+    if(do_train) {
+      if (curKey in trainValues) {
+        fill(0, 200, 0);
+      }
+      else {
+        fill(200, 0, 0);
+      }
+      ellipse(x1+400/2, y1+400+15, 10, 10);      
     }
+
+    image(img, x2, y1, 400, 400);
+    noStroke();
+    var curSliderTintValue = sliderTint.value();
+    var overlayAlpha = map(curSliderTintValue, 0, 100, 255, 0);
+    fill(bg_color1[0], bg_color1[1], bg_color1[2], overlayAlpha);
+    rect(x2, y1, 400, 400);
+    stroke(0);
+    fill(255);
 
     for(var i=0; i<data.landmarks.length; i++) {
       // get array of face marker positions [x, y] format
@@ -251,6 +342,114 @@ function draw () {
       textDisplay = "FaceMap: " + curFaceIndex;
     }
   }
+
+  else if (mode == 'Neighbors') {
+    // var keys = Object.keys(trainData);
+    var curKey = trainDataKeys[curTrainIndex];
+    var data = trainData[curKey];
+
+    // Displays the image at its actual size at point (0,0)
+    var img = data.image
+    var x1 = (width/4-250/2);
+    var y1 = (height/3-250/2);
+    image(img, x1, y1, 250, 250);
+    if (curKey in trainValues) {
+      fill(0, 200, 0);
+    }
+    else {
+      fill(200, 0, 0);
+    }
+    ellipse(x1+250/2, y1+250+15, 10, 10);
+
+    var y2 = (3*height/4-80/2);
+    for(var i=0; i<4; i++) {
+      // var keys = Object.keys(trainData);
+      var curKey = curNeighbors[i];
+      var nearData = trainData[curKey];      
+
+      // Displays the image at its actual size at point (0,0)
+      var img = nearData.image
+      var x2 = (width/4 - 200 + i*100);
+      image(img, x2, y2, 80, 80);
+    }
+
+    for(var i=0; i<1; i++) {
+      // get array of face marker positions [x, y] format
+      var positions = data.landmarks[i];
+      var shifted_positions = JSON.parse(JSON.stringify(positions))
+
+      var data_mean = [0.0, 0.0];
+      var data_scale = 1.0;
+      var data_angle = 0.0;
+      if ('transform' in positions) {
+        data_mean = positions.transform.center;
+        data_scale = positions.transform.scale;
+        data_angle = positions.transform.angle;
+        delete shifted_positions.transform
+      }
+      var scale_x = 400.0 / img.width;
+      var scale_y = 400.0 / img.height;
+
+      Object.keys(positions).forEach(function(key) {
+        if (key=='transform') {
+          return;
+        }
+        var curSection = positions[key];
+        var shiftedSection = shifted_positions[key];
+        for (var i=0; i<curSection.length; i++) {
+          var cur_x = curSection[i][0];
+          var cur_y = curSection[i][1];
+          // get ready for drawing the face
+          shiftedSection[i][0] = cur_x;
+          shiftedSection[i][1] = cur_y;
+        }
+      });
+
+
+      var scale_x = 250.0 / img.width;
+      var scale_y = 250.0 / img.height;
+      var x2 = (3*width/4-250/2);
+      push();
+      translate(x2, y1);
+      translate(scale_x*data_mean[0], scale_y*data_mean[1]);
+      scale(scale_x*data_scale, scale_y*data_scale);
+      rotate(degrees(data_angle));
+      strokeWeight(1/data_scale);
+      mainFace.setProperties(params);
+      mainFace.draw(shifted_positions);
+      pop();
+
+      var scale_x = 80.0 / img.width;
+      var scale_y = 80.0 / img.height;
+      for(var j=0; j<4; j++) {
+        // var keys = Object.keys(trainData);
+        var curKey = curNeighbors[j];
+        var x2 = (3*width/4 - 200 + j*100);
+
+        push();
+        translate(x2, y2);
+
+        if (curKey in trainValues) {
+          var settings = trainValues[curKey]
+          translate(scale_x*data_mean[0], scale_y*data_mean[1]);
+          scale(scale_x*data_scale, scale_y*data_scale);
+          rotate(degrees(data_angle));
+          strokeWeight(1/data_scale);
+          littleFace.setProperties(settings);
+          littleFace.draw(shifted_positions);
+        }
+        else {
+          noFill();
+          stroke(100);
+          rect(10, 10, 70, 70);
+        }
+        pop();
+      }
+    }
+
+    textDisplay = "Neighbors: " + trainDataKeys[curTrainIndex];
+  }
+
   fill(255);
   textSize(32);
   textAlign(CENTER);
@@ -258,6 +457,35 @@ function draw () {
 }
 
 function keyTyped() {
+  if(!haveStarted) {
+    return;
+  }
+  var mode = faceSelector.value();
+  if (key == '1' && mode != 'Face') {
+    print("face")
+    faceSelector.value('Face');
+  }
+  else if (key == '2' && mode != 'FaceMap') {
+    print("facemap")
+    faceSelector.value('FaceMap');
+  }
+  else if (key == '3' && mode != 'Train') {
+    faceSelector.value('Train');
+  }
+  else if (key == '4' && mode != 'Neighbors') {
+    faceSelector.value('Neighbors');
+  }
+
+  if (key == 's') {
+    saveCurrentSettings();
+  }
+  else if (key == 'i') {
+    interpolateCurrent();
+  }
+  else if (key == 'l') {
+    loadCurrentSettings();
+  }
+
   if (key == '!') {
     saveBlocksImages();
   }
@@ -266,36 +494,92 @@ function keyTyped() {
   }
 }
 
-function updateSlidersForTraining() {
+function interpolateCurrent() {
+  var curNeighborSettings = [];
+
+  for(var i=0; i<4; i++) {
+    neighborKey = curNeighbors[i]
+    if(neighborKey in trainValues) {
+      curNeighborSettings.push(trainValues[neighborKey]);
+    }
+  }
+
+  for(var i=0; i<NUM_SLIDERS; i++) {
+    sliders[i].value(50);
+  }
+
+  if(curNeighborSettings.length > 0) {
+    settings = curNeighborSettings[0];
+    for(var i=0; i<settings.length; i++) {
+      var sum = 0;
+      for(j=0; j<curNeighborSettings.length; j++) {
+        sum += curNeighborSettings[j][i];
+      }
+      var avg = int(sum / curNeighborSettings.length)
+      sliders[i].value(avg);
+    }
+  }
+}
+
+function loadCurrentSettings() {
   var curKey = trainDataKeys[curTrainIndex];
+  for(var i=0; i<NUM_SLIDERS; i++) {
+    sliders[i].value(50);
+  }    
   if (curKey in trainValues) {
     var settings = trainValues[curKey]
     for(var i=0; i<settings.length; i++) {
       sliders[i].value(settings[i]);
     }
   }
-  else {
-    for(var i=0; i<NUM_SLIDERS; i++) {
-      sliders[i].value(50);
-    }    
+}
+
+function updateSlidersForTraining() {
+  var mode = faceSelector.value();
+  var curKey = trainDataKeys[curTrainIndex];
+
+  // first find the closest neighbors
+  var nearest = allEmbeddingsTree.nearest(trainData[curKey].embedding[0], 5);
+  curNeighbors = [];
+  curNeighborSettings = [];
+  for(var i=0; i<5; i++) {
+    if(nearest[i][0][128] != curKey) {
+      var neighborKey = nearest[i][0][128];
+      curNeighbors.push(neighborKey);
+      if(neighborKey in trainValues) {
+        curNeighborSettings.push(trainValues[neighborKey]);
+      }
+    }
   }
+
+  loadCurrentSettings();
+  // if(mode == 'Neighbors') {
+  //   interpolateCurrent();
+  // }
+  // else {
+  //   loadCurrentSettings();
+  // }
 }
 
 function keyPressed() {
+  if(!haveStarted) {
+    return;
+  }
   var mode = faceSelector.value();
   if (mode == 'FaceMap') {
-    if (keyCode === LEFT_ARROW || keyCode == UP_ARROW) {
+    if (keyCode == LEFT_ARROW || keyCode == UP_ARROW) {
       curFaceIndex = (curFaceIndex + faceData.length - 1) % faceData.length;
     } else if (keyCode === RIGHT_ARROW || keyCode == DOWN_ARROW) {
       curFaceIndex = (curFaceIndex + 1) % faceData.length;
     }
   }
-  else if (mode == 'Train') {
-    if (keyCode === LEFT_ARROW || keyCode == UP_ARROW) {
+  else if (mode == 'Train' || mode == 'Neighbors') {
+    if (keyCode == LEFT_ARROW || keyCode == UP_ARROW) {
       curTrainIndex = (curTrainIndex + trainDataKeys.length - 1) % trainDataKeys.length;
-    } else if (keyCode === RIGHT_ARROW || keyCode == DOWN_ARROW) {
+      updateSlidersForTraining();
+    } else if (keyCode == RIGHT_ARROW || keyCode == DOWN_ARROW) {
       curTrainIndex = (curTrainIndex + 1) % trainDataKeys.length;
+      updateSlidersForTraining();
     }
-    updateSlidersForTraining();
   }
 }
