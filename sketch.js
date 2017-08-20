@@ -6,6 +6,7 @@ var mainFace;
 var faceImages = [];
 var curFaceIndex = 0;
 var curTrainIndex = 0;
+var curValidIndex = 0;
 var main_canvas;
 var faceSelector;
 var facelist = [];
@@ -23,13 +24,17 @@ var faceData = [
 ]
 
 var trainData = {}
+var trainDataKeys = []
 var trainValues = {}
+var validData = {}
+var validDataKeys = []
 
 var faceMapping = null;
 
 function preload () {
   extraFaceData = loadJSON('face_data.json');
   trainData = loadJSON('train_data.json');
+  validData = loadJSON('valid_data.json');
   trainValues = loadJSON('train_values.json');
 }
 
@@ -87,6 +92,14 @@ function setup () {
     }
     data.image = loadImage(data.url);
   }
+
+  validDataKeys = Object.keys(validData);
+  for(var i=0; i<validDataKeys.length; i++) {
+    var curKey = validDataKeys[i];
+    var data = validData[curKey];
+    data.image = loadImage(data.url);
+  }
+
   // print("Length: ", allEmbeddings.length);
   // setup k-d tree
   var N = allEmbeddings[0].length - 1; 
@@ -100,7 +113,9 @@ function setup () {
   faceSelector.option('FaceMap');
   faceSelector.option('Train');
   faceSelector.option('Neighbors');
-  faceSelector.value('Neighbors');
+  faceSelector.option('TrainQuiz');
+  faceSelector.option('ValidQuiz');
+  faceSelector.value('FaceMap');
   faceSelector.parent('selector1Container');
 
   /* create the sliders */
@@ -182,8 +197,11 @@ function changeRandomSeed() {
 }
 
 function mouseClicked() {
-  changeRandomSeed();
+  // changeRandomSeed();
 }
+
+var quiz_done = false;
+var guessed_answer = 0;
 
 function draw () {
   var mode = faceSelector.value();
@@ -450,6 +468,199 @@ function draw () {
     textDisplay = "Neighbors: " + trainDataKeys[curTrainIndex];
   }
 
+  else if (mode == 'TrainQuiz' || mode == 'ValidQuiz') {
+    var curKey = trainDataKeys[curTrainIndex];
+    var data = trainData[curKey];
+    var valid_mode = false;
+    if (mode == 'ValidQuiz') {
+        valid_mode = true;
+        curKey = validDataKeys[curValidIndex];
+        data = validData[curKey];
+    }
+
+    // Displays the image at its actual size at point (0,0)
+    var img = data.image
+    var x1 = (width/2-200/2);
+    var y1 = (height/3-300/2);
+    image(img, x1, y1, 200, 200);
+    if(valid_mode) {
+      fill(0, 0, 200);
+    }
+    else if (curKey in trainValues) {
+      fill(0, 200, 0);
+    }
+    else {
+      fill(200, 0, 0);
+    }
+    ellipse(x1+200/2, y1+200+15, 10, 10);
+
+    var y2 = (3*height/5-80/2);
+    var y3 = (4*height/5-80/2);
+
+/*
+    for(var i=0; i<4; i++) {
+      // var keys = Object.keys(trainData);
+      var curKey = curNeighbors[i];
+      var nearData = trainData[curKey];      
+
+      // Displays the image at its actual size at point (0,0)
+      var img = nearData.image
+      var x2 = (width/4 - 200 + i*100);
+      image(img, x2, y2, 80, 80);
+    }
+*/
+    for(var i=0; i<1; i++) {
+      // get array of face marker positions [x, y] format
+      var positions = data.landmarks[i];
+      var shifted_positions = JSON.parse(JSON.stringify(positions))
+
+      var data_mean = [0.0, 0.0];
+      var data_scale = 1.0;
+      var data_angle = 0.0;
+      if ('transform' in positions) {
+        data_mean = positions.transform.center;
+        data_scale = positions.transform.scale;
+        data_angle = positions.transform.angle;
+        delete shifted_positions.transform
+      }
+      var scale_x = 400.0 / img.width;
+      var scale_y = 400.0 / img.height;
+
+      Object.keys(positions).forEach(function(key) {
+        if (key=='transform') {
+          return;
+        }
+        var curSection = positions[key];
+        var shiftedSection = shifted_positions[key];
+        for (var i=0; i<curSection.length; i++) {
+          var cur_x = curSection[i][0];
+          var cur_y = curSection[i][1];
+          // get ready for drawing the face
+          shiftedSection[i][0] = cur_x;
+          shiftedSection[i][1] = cur_y;
+        }
+      });
+
+
+/*
+      var scale_x = 250.0 / img.width;
+      var scale_y = 250.0 / img.height;
+      var x2 = (3*width/4-250/2);
+      push();
+      translate(x2, y1);
+      translate(scale_x*data_mean[0], scale_y*data_mean[1]);
+      scale(scale_x*data_scale, scale_y*data_scale);
+      rotate(degrees(data_angle));
+      strokeWeight(1/data_scale);
+      mainFace.setProperties(params);
+      mainFace.draw(shifted_positions);
+      pop();
+*/
+
+      var scale_x = 80.0 / img.width;
+      var scale_y = 80.0 / img.height;
+      var otherKeys = Object.keys(trainValues);
+      var index = otherKeys.indexOf(trainDataKeys[curTrainIndex]);
+      if(index >= 0) {
+        otherKeys.splice(index, 1);
+      }
+      var answerSlot = int(focusedRandom(0, 4));
+      var answerKeys = Array(4);
+      for(var j=0; j<4; j++) {
+        if(j == answerSlot) {
+          curKey = trainDataKeys[curTrainIndex];
+        }
+        else {
+          var guess = int(focusedRandom(0, otherKeys.length));
+          // if(otherKeys.length > j+2) {
+          //   while(answerKeys.indexOf(guess) == -1) {
+          //     guess = int(focusedRandom(0, otherKeys.length));
+          //   }            
+          // }
+          curKey = otherKeys[guess];
+        }
+        answerKeys[j] = curKey;
+        // print("Answer", j, " is ", curKey);
+        var x2 = (width/2 - 200 + j*100);
+
+        var settings = params;
+        if (valid_mode && j == answerSlot) {
+            var curEmbedding = data.embedding[0];
+            results = getAverageSettingsFrom(curEmbedding);
+            settings = results[0];
+            var validTrainKeys = results[1];
+        }
+        else if (curKey in trainValues) {
+            settings = trainValues[curKey];
+        }
+        push();
+        translate(x2, y2);
+        translate(scale_x*data_mean[0], scale_y*data_mean[1]);
+        scale(scale_x*data_scale, scale_y*data_scale);
+        rotate(degrees(data_angle));
+        strokeWeight(1/data_scale);
+        littleFace.setProperties(settings);
+        littleFace.draw(shifted_positions);
+        pop();
+        if(quiz_done && guessed_answer == (j+1)) {          
+          push();
+          translate(x2, y2);
+          noFill();
+          strokeWeight(4);
+          if(guessed_answer == (answerSlot+1)) {
+            stroke(0, 100, 0);
+          }
+          else {
+            stroke(100, 0, 0);
+          }
+          rect(-10, -10, 100, 100);
+          pop();
+        }
+      }
+      if(quiz_done) {
+        for(var j=0; j<4; j++) {
+          if (valid_mode && (answerSlot+1) == (j+1)) {
+            for(var k=0; k<4; k++) {
+              var curKey = validTrainKeys[k];
+              var nearData = trainData[curKey];      
+              // Displays the image at its actual size at point (0,0)
+              var img = nearData.image
+              var x2 = (width/2 - 200 + j*100 + (k%2)*40);
+              var y4 = y3 + (int(k/2))*40;
+              image(img, x2, y4, 40, 40);              
+            }
+          }
+          else {
+            var curKey = answerKeys[j];
+            var nearData = trainData[curKey];      
+            // Displays the image at its actual size at point (0,0)
+            var img = nearData.image
+            var x2 = (width/2 - 200 + j*100);
+            image(img, x2, y3, 80, 80);            
+          }
+        }          
+      }
+    }
+
+    if(valid_mode) {
+      if(quiz_done) {
+        textDisplay = "ValidQuiz: hit spacebar to continue";
+      }
+      else {
+        textDisplay = "ValidQuiz: hit 1, 2, 3, or 4 to guess";        
+      }
+    }
+    else {
+      if(quiz_done) {
+        textDisplay = "TrainQuiz: hit spacebar to continue";
+      }
+      else {
+        textDisplay = "TrainQuiz: hit 1, 2, 3, or 4 to guess";        
+      }
+    }
+  }
+
+
   fill(255);
   textSize(32);
   textAlign(CENTER);
@@ -461,19 +672,43 @@ function keyTyped() {
     return;
   }
   var mode = faceSelector.value();
-  if (key == '1' && mode != 'Face') {
+  if (key == 'q' && mode != 'Face') {
     print("face")
     faceSelector.value('Face');
   }
-  else if (key == '2' && mode != 'FaceMap') {
+  else if (key == 'w' && mode != 'FaceMap') {
     print("facemap")
     faceSelector.value('FaceMap');
   }
-  else if (key == '3' && mode != 'Train') {
+  else if (key == 'e' && mode != 'Train') {
     faceSelector.value('Train');
   }
-  else if (key == '4' && mode != 'Neighbors') {
+  else if (key == 'r' && mode != 'Neighbors') {
     faceSelector.value('Neighbors');
+  }
+  else if (key == 't' && mode != 'TrainQuiz') {
+    faceSelector.value('TrainQuiz');
+  }
+  else if (key == 'y' && mode != 'ValidQuiz') {
+    faceSelector.value('ValidQuiz');
+  }
+
+  if (key == ' ' && 
+    (mode == 'TrainQuiz' || mode == 'ValidQuiz') && quiz_done) {
+    quiz_done = false;
+    if(mode == 'TrainQuiz') {
+        curTrainIndex = (curTrainIndex + 1) % trainDataKeys.length;
+    }
+    else {
+        curValidIndex = (curValidIndex + 1) % validDataKeys.length;
+    }
+    changeRandomSeed();    
+  }
+  else if ((mode == 'TrainQuiz' || mode == 'ValidQuiz') && quiz_done == false) {
+    if(key >= '1' && key <= '4') {
+      guessed_answer = key - '0';
+      quiz_done = true;
+    }
   }
 
   if (key == 's') {
@@ -559,6 +794,43 @@ function updateSlidersForTraining() {
   // else {
   //   loadCurrentSettings();
   // }
+}
+
+function getAverageSettingsFrom(e) {
+  // first find the closest neighbors
+  var nearest = allEmbeddingsTree.nearest(e, 4);
+  curNeighbors = [];
+  curNeighborSettings = [];
+  for(var i=0; i<4; i++) {
+    var neighborKey = nearest[i][0][128];
+    curNeighbors.push(neighborKey);
+    if(neighborKey in trainValues) {
+      curNeighborSettings.push(trainValues[neighborKey]);
+    }
+  }
+
+  for(var i=0; i<4; i++) {
+    neighborKey = curNeighbors[i]
+    if(neighborKey in trainValues) {
+      curNeighborSettings.push(trainValues[neighborKey]);
+    }
+  }
+
+  var trainValueKeys = Object.keys(trainValues);
+  var props = trainValues[trainValueKeys[0]];
+
+  if(curNeighborSettings.length > 0) {
+    settings = curNeighborSettings[0];
+    for(var i=0; i<settings.length; i++) {
+      var sum = 0;
+      for(j=0; j<curNeighborSettings.length; j++) {
+        sum += curNeighborSettings[j][i];
+      }
+      var avg = int(sum / curNeighborSettings.length)
+      props[i] = avg;
+    }
+  }
+  return [props, curNeighbors];
 }
 
 function keyPressed() {
