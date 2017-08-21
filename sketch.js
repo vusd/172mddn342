@@ -343,13 +343,25 @@ function draw () {
       // line(x1+data_mean[0], y1+data_mean[1]-2*data_scale, x1+data_mean[0], y1+data_mean[1]+2*data_scale);
       pop();
 
+      var settings = params;
+      if ((typeof data.embedding !== 'undefined') &&
+          (data.embedding != null) &&
+          (data.embedding.length > i) &&
+          (data.embedding[i] != null) &&
+          (typeof data.embedding[i].length !== 'undefined') &&
+          (data.embedding[i].length == 128)) {
+        var curEmbedding = data.embedding[i];
+        results = getAverageSettingsFrom(curEmbedding);
+        settings = results[0];
+      }
+
       push();
       translate(x2, y1)
       translate(scale_x*data_mean[0], scale_y*data_mean[1]);
       scale(scale_x*data_scale, scale_y*data_scale);
       rotate(degrees(data_angle));
       strokeWeight(1/data_scale);
-      mainFace.setProperties(params);
+      mainFace.setProperties(settings);
       mainFace.draw(shifted_positions);
       pop();
     }
