@@ -283,12 +283,16 @@ function draw () {
       ellipse(x1+400/2, y1+400+15, 10, 10);      
     }
 
-    image(img, x2, y1, 400, 400);
+    x2 = 0;
+    y1 = 0;
+    var im_w = 960;
+    var im_h = 500;
+    image(img, x2, y1, im_w, im_h);
     noStroke();
     var curSliderTintValue = sliderTint.value();
     var overlayAlpha = map(curSliderTintValue, 0, 100, 255, 0);
     fill(bg_color1[0], bg_color1[1], bg_color1[2], overlayAlpha);
-    rect(x2, y1, 400, 400);
+    rect(x2, y1, im_w, im_h);
     stroke(0);
     fill(255);
 
@@ -306,8 +310,8 @@ function draw () {
         data_angle = positions.transform.angle;
         delete shifted_positions.transform
       }
-      var scale_x = 400.0 / img.width;
-      var scale_y = 400.0 / img.height;
+      var scale_x = im_w / img.width;
+      var scale_y = im_h / img.height;
 
       push();
       translate(x1, y1)
@@ -327,7 +331,7 @@ function draw () {
         for (var i=0; i<curSection.length; i++) {
           var cur_x = curSection[i][0];
           var cur_y = curSection[i][1];
-          ellipse(cur_x, cur_y, 3/data_scale, 3/data_scale);
+          // ellipse(cur_x, cur_y, 3/data_scale, 3/data_scale);
           // get ready for drawing the face
           shiftedSection[i][0] = cur_x;
           shiftedSection[i][1] = cur_y;
@@ -335,10 +339,10 @@ function draw () {
       });
 
       noFill();
-      stroke(0, 0, 255);
-      ellipse(0, 0, 4, 4);
-      line(0, -2, 0, 2);
-      line(-2, 0, 2, 0);
+      // stroke(0, 0, 255);
+      // ellipse(0, 0, 4, 4);
+      // line(0, -2, 0, 2);
+      // line(-2, 0, 2, 0);
       // ellipse(x1+data_mean[0], y1+data_mean[1], 4*data_scale, 4*data_scale);
       // line(x1+data_mean[0], y1+data_mean[1]-2*data_scale, x1+data_mean[0], y1+data_mean[1]+2*data_scale);
       pop();
@@ -369,7 +373,7 @@ function draw () {
       textDisplay = "Train: " + curKey;
     }
     else {
-      textDisplay = "FaceMap: " + curFaceIndex;
+      textDisplay = "";
     }
   }
 
