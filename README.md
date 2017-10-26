@@ -1,6 +1,20 @@
-## PS2 MDDN 342 2017
+## student solutions
 
+How to run.
 
-README for part3.
+### First pick an image
 
-This is the training step.
+Also update in `sketch.js`:
+
+var im_w = 960;
+
+### Select a caricuture
+
+Student submissions cleared for release are in `submissions` subdirectory.
+
+Example:
+
+```
+cp submissions/hannahdockerty.js facemap.js
+cp submissions/hannahdockerty.json train_values.json
+```
