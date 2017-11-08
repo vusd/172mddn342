@@ -31,7 +31,7 @@ var faceMapping = null;
 
 function preload () {
   extraFaceData = loadJSON('face_data.json');
-  trainData = loadJSON('train_data.json');
+  trainData = loadJSON('rafd_train.json');
   validData = loadJSON('valid_data.json');
   trainValues = loadJSON('train_values.json');
 }
