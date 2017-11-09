@@ -16,7 +16,7 @@
   ch3_detailPrimary = [0, 0, 0];
   ch3_detailSecondary = [0, 0, 255];
 
-function FaceMap() {
+function FaceMap_alteste() {
 
   // draw strokes with rounded joints  
   strokeJoin(ROUND);

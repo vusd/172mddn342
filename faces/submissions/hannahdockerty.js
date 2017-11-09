@@ -41,7 +41,7 @@ eye_color = ["#3e7191", "#22323d", "#3d4722", "#543f14", "#493127", "#000"];
 
 pupil_color = "#000";
 
-function FaceMap() {
+function FaceMap_hannahdockerty() {
   this.lookPos = 50;
   this.eyeAngle = 100;
   this.skinColor = 50;

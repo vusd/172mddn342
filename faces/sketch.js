@@ -8,6 +8,7 @@ var curFaceIndex = 0;
 var curTrainIndex = 0;
 var curValidIndex = 0;
 var main_canvas;
+var submissionSelector;
 var faceSelector;
 var facelist = [];
 var NUMFACES = 6*9;
@@ -21,19 +22,56 @@ var faceData = [
   {"landmarks": [{"nose_bridge": [[-0.11915309753870079, -1.0774219445207711], [-0.13194185058151556, -0.7736549202224418], [-0.17555954511257515, -0.4195113024623971], [-0.18834829815538986, -0.11574427816406752]], "left_eye": [[-1.1424886468718944, -1.0458639582140303], [-0.9590224614704648, -1.1759386230976654], [-0.7056320306338502, -1.1939788115430956], [-0.48457800481352026, -0.989457510640156], [-0.68759184218842, -0.9405883807064809], [-0.9409822730250346, -0.9225481922610508]], "top_lip": [[-0.7026664774688184, 0.7812605781600669], [-0.5289741180541238, 0.6105831458014519], [-0.28535751320424413, 0.5519401898810417], [-0.14400155880583426, 0.6038242468707966], [0.059012278569065435, 0.5549551169371215], [0.34172418736588517, 0.658723230916631], [0.6748126896244199, 0.7933202863843856], [0.543230561212745, 0.7820389968696106], [0.06727864102776064, 0.7677427802987561], [-0.10490625485889415, 0.7662353167707163], [-0.2770911507455489, 0.7647278532426764], [-0.5808581750438785, 0.7519391001998618]], "left_eyebrow": [[-1.4936173375758595, -1.4338514445183996], [-1.26954838469945, -1.5736999353887697], [-0.9755551863878553, -1.601513949820935], [-0.6717881620895256, -1.5887251967781202], [-0.37930242730597086, -1.4443543153236307]], "transform": {"scale": 23.944885517334836, "center": [241.73611111111111, 127.75], "angle": 0.23622397528318634}, "right_eyebrow": [[0.20868396931721833, -1.4999823441879612], [0.5545612246185678, -1.6691523130185362], [0.8891571904051424, -1.7067401534374365], [1.2839035756401669, -1.672896284893112], [1.5763893104237214, -1.5285254034386222]], "right_eye": [[0.45755200956971354, -1.001467844973427], [0.6718471364593881, -1.1819191033187768], [0.9658403347709826, -1.2097331177509423], [1.1771205346045774, -1.0458145843229827], [0.9838805232164127, -0.9563426869143276], [0.6898873249048183, -0.9285286724821623]], "nose_tip": [[-0.43347236653330934, 0.11508357364299744], [-0.28234258614816443, 0.20757039810773217], [-0.14098663174975457, 0.259454455097487], [0.062027205625145125, 0.21058532516381184], [0.21466444953832986, 0.13088725374189183]], "chin": [[-1.6394956825583888, -0.9691808138481901], [-1.653791899129243, -0.4932288936632056], [-1.5868825807501379, -0.036824625451691295], [-1.5199732623710325, 0.419579642759823], [-1.3718584090419674, 0.8564362589978674], [-1.1523118467496776, 1.2331424557874615], [-0.8207308080191824, 1.539924407141871], [-0.4989235952754227, 1.8061035910213004], [-0.0034240231169682667, 1.9016053425421149], [0.4935830125695261, 1.8249221981762747], [1.042474105245775, 1.6068830994120242], [1.521440952486839, 1.2768095242095692], [1.9094284387912084, 0.9256808335056042], [2.1056833772354526, 0.49183914432363957], [2.191411302769532, -0.044263195309794834], [2.2463102868153664, -0.5299889414815142], [2.2508326773994862, -1.0465436291414787]], "bottom_lip": [[0.6748126896244199, 0.7933202863843856], [0.3387092603098055, 1.0030930226899408], [0.054489887984945945, 1.071509804597086], [-0.1582977753766888, 1.079776167055781], [-0.34025649725007867, 1.0376659360527611], [-0.5319890451102034, 0.9549529375747614], [-0.7026664774688184, 0.7812605781600669], [-0.5808581750438785, 0.7519391001998618], [-0.31769391822052884, 0.7745016792294115], [-0.13573519634713904, 0.8166119102324313], [0.0266758735527807, 0.7775166062854911], [0.543230561212745, 0.7820389968696106]]}], "url": "z_face3.jpg", "embedding": [[-0.05519425496459007, 0.03493059054017067, 0.08143620938062668, -0.08901284635066986, -0.14302502572536469, -0.02416623942553997, -0.09756344556808472, -0.08315102756023407, 0.23946982622146606, -0.15162669122219086, 0.09232431650161743, -0.014769241213798523, -0.15266633033752441, 0.0738283321261406, -0.08435601741075516, 0.1452733278274536, -0.09795519709587097, -0.16579927504062653, -0.09493180364370346, -0.062312837690114975, -0.08847658336162567, 0.021459033712744713, -0.00294596329331398, 0.012956537306308746, -0.12360681593418121, -0.35962730646133423, -0.08465795964002609, -0.05886299908161163, -0.014770012348890305, 0.003773917444050312, -0.023260220885276794, 0.10789743810892105, -0.1129622533917427, -0.047460466623306274, 0.04806378483772278, 0.11290744692087173, -0.09416302293539047, -0.0867939442396164, 0.24747592210769653, 0.03254516422748566, -0.22027653455734253, 0.0030573979020118713, 0.08847130835056305, 0.2831569314002991, 0.22063785791397095, 0.03714641183614731, 0.13540662825107574, -0.1261082887649536, 0.14653107523918152, -0.3661941885948181, 0.0811522826552391, 0.16923867166042328, 0.011623818427324295, 0.09494776278734207, 0.13868921995162964, -0.17209285497665405, 0.023121878504753113, 0.1638849526643753, -0.1638297140598297, 0.10636025667190552, 0.07150483876466751, 0.000995999202132225, -0.05054526403546333, -0.06572765111923218, 0.3229401111602783, 0.18288353085517883, -0.11134769022464752, -0.16417694091796875, 0.28029778599739075, -0.16538552939891815, -0.06219102442264557, 0.07175640761852264, -0.08962765336036682, -0.22000420093536377, -0.22248777747154236, 0.01842578500509262, 0.3819790482521057, 0.22037602961063385, -0.09785779565572739, 0.10503733158111572, -0.15017080307006836, -0.04053933173418045, 0.008872395381331444, 0.08559748530387878, -0.006650010123848915, -0.02032337710261345, -0.028860213235020638, -0.012347746640443802, 0.2899158298969269, -0.01995079219341278, 0.008609645068645477, 0.22352749109268188, 0.07356566190719604, -0.04810752719640732, -0.03028353489935398, 0.08436368405818939, -0.15227405726909637, 0.02202434279024601, -0.20539432764053345, -0.059333980083465576, 0.10269267857074738, 0.023140307515859604, 0.05972312390804291, 0.12896883487701416, -0.2676396667957306, 0.24129846692085266, -0.08049461990594864, -0.034685902297496796, 0.028595078736543655, -0.032721344381570816, -0.009528398513793945, 0.0033172406256198883, 0.22001129388809204, -0.27409398555755615, 0.15639911592006683, 0.1383773386478424, 0.07004918903112411, 0.18882378935813904, 0.07051581889390945, 0.038776811212301254, 0.0793108195066452, -0.06640178710222244, -0.1935870349407196, -0.0840207114815712, -0.048229992389678955, -0.012153556570410728, -0.03877771645784378, 0.15794801712036133]]}
 ]
 
+
+var submissions = [
+  "alteste",
+  "hannahdockerty"
+]
+var submissionTable = {}
+var curSubmissionIndex = 0;
+
 var trainData = {}
 var trainDataKeys = []
-var trainValues = {}
 var validData = {}
 var validDataKeys = []
 
 var faceMapping = null;
 
+function getCurTrainValues() {
+  var curSubmission = submissions[curSubmissionIndex];
+  if ("trainValues" in submissionTable[curSubmission]) {
+    return submissionTable[curSubmission]["trainValues"];  
+  }
+  else {
+    return {};
+  }
+}
+
+function getCurFaceMap() {
+  var curSubmission = submissions[curSubmissionIndex];
+  if ("FaceMap" in submissionTable[curSubmission]) {
+    return submissionTable[curSubmission]["FaceMap"];  
+  }
+  else {
+    return null;
+  }
+}
+
 function preload () {
   extraFaceData = loadJSON('face_data.json');
-  trainData = loadJSON('rafd_train.json');
+  trainData = loadJSON('train_data.json');
   validData = loadJSON('valid_data.json');
-  trainValues = loadJSON('train_values.json');
+  for(var i=0; i<submissions.length;i++) {
+    var curKey = submissions[i];
+    var sourceFile = "submissions/" + curKey + ".json"
+    var curTrainValues = loadJSON(sourceFile);
+    var curFacemapName = "FaceMap_" + curKey;
+    var curFacemap = window[curFacemapName];
+    submissionTable[curKey] = {
+      "trainValues": curTrainValues,
+      "FaceMap": curFacemap
+    }
+  }
 }
 
 var allEmbeddingsTree;
@@ -68,8 +106,14 @@ function setup () {
     facelist.push(face);
   }
 
-  mainFace = new FaceMap();
-  littleFace = new FaceMap();
+  var faceFactory = getCurFaceMap();
+  if(faceFactory == null) {
+    console.log("Expect bad things")
+  }
+  else {
+    mainFace = new faceFactory();
+    littleFace = new faceFactory();    
+  }
 
   for(var i=0; i<faceData.length; i++) {
     var data = faceData[i];
@@ -106,6 +150,13 @@ function setup () {
   allEmbeddingsTree = new kdTree(allEmbeddings, squaredDistance, embeddingDimensions);
   // print(allEmbeddingsTree)
 
+  submissionSelector = createSelect();
+  for(var i=0; i<submissions.length; i++) {
+    submissionSelector.option(submissions[i])
+  }
+  submissionSelector.parent('selector1Container');
+  submissionSelector.changed(updateSubmissions);
+
   faceSelector = createSelect();
   faceSelector.option('Face');
   faceSelector.option('FaceMap');
@@ -114,7 +165,7 @@ function setup () {
   faceSelector.option('TrainQuiz');
   faceSelector.option('ValidQuiz');
   faceSelector.value('FaceMap');
-  faceSelector.parent('selector1Container');
+  faceSelector.parent('selector2Container');
 
   /* create the sliders */
   for(i=1; i<=NUM_SLIDERS; i++) {
@@ -156,9 +207,28 @@ function setup () {
   haveStarted = true;
 }
 
+function updateSubmissions() {
+  var item = submissionSelector.value();
+  curSubmissionIndex = submissions.indexOf(item)
+  var faceFactory = getCurFaceMap();
+  if(faceFactory == null) {
+    console.log("Expect bad things")
+  }
+  else {
+    mainFace = new faceFactory();
+    littleFace = new faceFactory();
+  }
+
+  // TODO: really?
+  interpolateCurrent();
+  loadCurrentSettings();
+  updateSlidersForTraining();
+}
+
 function saveCurrentSettings() {
   var curKey = trainDataKeys[curTrainIndex];
   obj = mainFace.getProperties();
+  var trainValues = getCurTrainValues();
   trainValues[curKey] = obj;
   // for(var i=0; i<obj.length; i++) {
   //   trainData[curKey][i] = obj[i];
@@ -176,6 +246,7 @@ function getSingleJson() {
 }
 
 function getAllJson() {
+  var trainValues = getCurTrainValues();
   obj = trainValues;
   var text = select('#output');
   var json = JSON.stringify(obj, null, 2);
@@ -203,6 +274,7 @@ var guessed_answer = 0;
 
 function draw () {
   var mode = faceSelector.value();
+  var trainValues = getCurTrainValues();
 
   if(millis() > lastSwapTime + millisPerSwap) {
     lastSwapTime = millis();
@@ -745,6 +817,7 @@ function keyTyped() {
 
 function interpolateCurrent() {
   var curNeighborSettings = [];
+  var trainValues = getCurTrainValues();
 
   for(var i=0; i<4; i++) {
     neighborKey = curNeighbors[i]
@@ -771,6 +844,7 @@ function interpolateCurrent() {
 }
 
 function loadCurrentSettings() {
+  var trainValues = getCurTrainValues();
   var curKey = trainDataKeys[curTrainIndex];
   for(var i=0; i<NUM_SLIDERS; i++) {
     sliders[i].value(50);
@@ -784,6 +858,7 @@ function loadCurrentSettings() {
 }
 
 function updateSlidersForTraining() {
+  var trainValues = getCurTrainValues();
   var mode = faceSelector.value();
   var curKey = trainDataKeys[curTrainIndex];
 
@@ -812,6 +887,7 @@ function updateSlidersForTraining() {
 
 function getAverageSettingsFrom(e) {
   // first find the closest neighbors
+  var trainValues = getCurTrainValues();
   var nearest = allEmbeddingsTree.nearest(e, 4);
   curNeighbors = [];
   curNeighborSettings = [];
@@ -851,19 +927,29 @@ function keyPressed() {
   if(!haveStarted) {
     return;
   }
+  if(keyCode == UP_ARROW) {
+    var newIndex = (curSubmissionIndex + submissions.length - 1) % submissions.length;
+    submissionSelector.value(submissions[newIndex]);
+    updateSubmissions();
+  }
+  if(keyCode == DOWN_ARROW) {
+    var newIndex = (curSubmissionIndex + 1) % submissions.length;
+    submissionSelector.value(submissions[newIndex]);    
+    updateSubmissions();
+  }
   var mode = faceSelector.value();
   if (mode == 'FaceMap') {
-    if (keyCode == LEFT_ARROW || keyCode == UP_ARROW) {
+    if (keyCode == LEFT_ARROW) {
       curFaceIndex = (curFaceIndex + faceData.length - 1) % faceData.length;
-    } else if (keyCode === RIGHT_ARROW || keyCode == DOWN_ARROW) {
+    } else if (keyCode === RIGHT_ARROW) {
       curFaceIndex = (curFaceIndex + 1) % faceData.length;
     }
   }
   else if (mode == 'Train' || mode == 'Neighbors') {
-    if (keyCode == LEFT_ARROW || keyCode == UP_ARROW) {
+    if (keyCode == LEFT_ARROW) {
       curTrainIndex = (curTrainIndex + trainDataKeys.length - 1) % trainDataKeys.length;
       updateSlidersForTraining();
-    } else if (keyCode == RIGHT_ARROW || keyCode == DOWN_ARROW) {
+    } else if (keyCode == RIGHT_ARROW) {
       curTrainIndex = (curTrainIndex + 1) % trainDataKeys.length;
       updateSlidersForTraining();
     }
