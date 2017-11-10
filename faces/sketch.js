@@ -24,8 +24,8 @@ var faceData = [
 
 
 var submissions = [
+  "hannahdockerty",
   "alteste",
-  "hannahdockerty"
 ]
 var submissionTable = {}
 var curSubmissionIndex = 0;
@@ -273,6 +273,9 @@ var quiz_done = false;
 var guessed_answer = 0;
 
 function draw () {
+  /* reset state */
+  colorMode(RGB);  
+
   var mode = faceSelector.value();
   var trainValues = getCurTrainValues();
 

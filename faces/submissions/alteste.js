@@ -17,19 +17,18 @@
   ch3_detailSecondary = [0, 0, 255];
 
 function FaceMap_alteste() {
-
-  // draw strokes with rounded joints  
-  strokeJoin(ROUND);
-
-  // set colour mode to HSB
-  colorMode(HSB);
-
   /*
    * Draw a face with position lists that include:
    *    chin, right_eye, left_eye, right_eyebrow, left_eyebrow
    *    bottom_lip, top_lip, nose_tip, nose_bridge, 
    */  
   this.draw = function(positions) {
+    // draw strokes with rounded joints  
+    strokeJoin(ROUND);
+
+    // set colour mode to HSB
+    colorMode(HSB);
+
     // variables of facial structure
     var nose_pos = average_point(positions.nose_bridge);
     var eye1_pos = average_point(positions.left_eye);
