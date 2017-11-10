@@ -24,6 +24,7 @@ var faceData = [
 
 
 var submissions = [
+  "hannahdockerty2",
   "alteste",
   "christinapetris",
   "hannahdockerty",
@@ -167,7 +168,7 @@ function setup () {
   faceSelector.option('Neighbors');
   faceSelector.option('TrainQuiz');
   faceSelector.option('ValidQuiz');
-  faceSelector.value('FaceMap');
+  faceSelector.value('Train');
   faceSelector.parent('selector2Container');
 
   /* create the sliders */
