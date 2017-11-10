@@ -51,6 +51,11 @@ function getCurTrainValues() {
   }
 }
 
+function storeCurTrainValues(trainValues) {
+  var curSubmission = submissions[curSubmissionIndex];
+  submissionTable[curSubmission]["trainValues"] = trainValues;
+}
+
 function getCurFaceMap() {
   var curSubmission = submissions[curSubmissionIndex];
   if ("FaceMap" in submissionTable[curSubmission]) {
@@ -63,7 +68,7 @@ function getCurFaceMap() {
 
 function preload () {
   extraFaceData = loadJSON('face_data.json');
-  trainData = loadJSON('train_data.json');
+  trainData = loadJSON('rafd_train.json');
   validData = loadJSON('valid_data.json');
   for(var i=0; i<submissions.length;i++) {
     var curKey = submissions[i];
@@ -234,6 +239,7 @@ function saveCurrentSettings() {
   obj = mainFace.getProperties();
   var trainValues = getCurTrainValues();
   trainValues[curKey] = obj;
+  storeCurTrainValues(trainValues);
   // for(var i=0; i<obj.length; i++) {
   //   trainData[curKey][i] = obj[i];
   // }
