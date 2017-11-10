@@ -347,9 +347,9 @@ function draw () {
     var x1 = (width/4-400/2);
     var x2 = (3*width/4-400/2);
     var y1 = (height/2-400/2);
-    // image(img, x1, y1, 400, 400);
 
     if(do_train) {
+      image(img, x1, y1, 400, 400);
       if (curKey in trainValues) {
         fill(0, 200, 0);
       }
@@ -359,10 +359,14 @@ function draw () {
       ellipse(x1+400/2, y1+400+15, 10, 10);      
     }
 
-    x2 = 0;
-    y1 = 0;
-    var im_w = img.width;
-    var im_h = img.height;
+    var im_w = 400;
+    var im_h = 400;
+    if(!do_train) {
+        x2 = 0;
+        y1 = 0;
+        im_w = img.width;
+        im_h = img.height;
+    }
     image(img, x2, y1, im_w, im_h);
     noStroke();
     var curSliderTintValue = sliderTint.value();
@@ -407,7 +411,9 @@ function draw () {
         for (var i=0; i<curSection.length; i++) {
           var cur_x = curSection[i][0];
           var cur_y = curSection[i][1];
-          // ellipse(cur_x, cur_y, 3/data_scale, 3/data_scale);
+          if(do_train) {
+              ellipse(cur_x, cur_y, 3/data_scale, 3/data_scale);
+          }
           // get ready for drawing the face
           shiftedSection[i][0] = cur_x;
           shiftedSection[i][1] = cur_y;
@@ -415,10 +421,12 @@ function draw () {
       });
 
       noFill();
-      // stroke(0, 0, 255);
-      // ellipse(0, 0, 4, 4);
-      // line(0, -2, 0, 2);
-      // line(-2, 0, 2, 0);
+      if(do_train) {
+          stroke(0, 0, 255);
+          ellipse(0, 0, 4, 4);
+          line(0, -2, 0, 2);
+          line(-2, 0, 2, 0);
+      }
       // ellipse(x1+data_mean[0], y1+data_mean[1], 4*data_scale, 4*data_scale);
       // line(x1+data_mean[0], y1+data_mean[1]-2*data_scale, x1+data_mean[0], y1+data_mean[1]+2*data_scale);
       pop();
