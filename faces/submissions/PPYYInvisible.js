@@ -10,13 +10,12 @@
  */
 
 // other variables can be in here too
-// these control the colors used
-bg_color = [225, 206, 187];
-stroke_color = [255, 255, 255];
-mouth_color = "#b30000";
-jaw_color = "#f2e6d9";
 
-function FaceMap() {
+function FaceMap_PPYYInvisible() {
+  // these control the colors used
+  this.mouth_color = "#b30000";
+  this.jaw_color = "#f2e6d9";
+
   this.background;
   this.eyerims_value;
   this.eyebrows_value;
@@ -116,7 +115,7 @@ function FaceMap() {
 
     //nose bridge
     push();
-    stroke(jaw_color);
+    stroke(this.jaw_color);
     strokeWeight(0.2);
     line(positions.nose_bridge[1][0], positions.nose_bridge[1][1], positions.nose_bridge[3][0], positions.nose_bridge[3][1]);
     pop();
@@ -210,7 +209,7 @@ function FaceMap() {
 
     //jaw
     push();
-    fill(jaw_color);
+    fill(this.jaw_color);
     // stroke(0);
     // strokeWeight(0.05);
     beginShape();
@@ -226,7 +225,7 @@ function FaceMap() {
 
     // mouth
     push();
-    fill(jaw_color);
+    fill(this.jaw_color);
     beginShape();
     for(var i=6; i<positions.top_lip.length; i++){
         vertex(positions.top_lip[i][0], positions.top_lip[i][1]);
@@ -235,7 +234,7 @@ function FaceMap() {
         vertex(positions.bottom_lip[j][0], positions.bottom_lip[j][1]);
     }
     endShape(CLOSE);
-    fill(mouth_color);
+    fill(this.mouth_color);
     // stroke(255);
     // strokeWeight(0.05);
     beginShape();

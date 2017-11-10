@@ -4,9 +4,9 @@
  * release form confirmed by Tom White 26 Oct 2017
  */
 
-bg_color = 0;
 var fireMove = 1;
-function FaceMap() {
+function FaceMap_christinapetris() {
+    this.bg_color = 0;
     
     this.hairOpacity = 50;
     this.bodyColourR = 255;
@@ -150,7 +150,7 @@ pop();
     endShape(CLOSE);
  colorMode(RGB);
     // inside of mouth
-fill(bg_color);
+fill(this.bg_color);
     beginShape();
     for(var i=6; i<positions.bottom_lip.length;i++) {
       vertex(positions.bottom_lip[i][0], positions.bottom_lip[i][1]);
@@ -159,7 +159,7 @@ fill(bg_color);
       vertex(positions.top_lip[i][0], positions.top_lip[i][1]);
     }
     endShape(CLOSE);
-    fill(bg_color);
+    fill(this.bg_color);
 
     // nose
     beginShape();

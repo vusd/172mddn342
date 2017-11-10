@@ -24,8 +24,11 @@ var faceData = [
 
 
 var submissions = [
-  "hannahdockerty",
   "alteste",
+  "christinapetris",
+  "hannahdockerty",
+  "MKDD",
+  "PPYYInvisible"
 ]
 var submissionTable = {}
 var curSubmissionIndex = 0;

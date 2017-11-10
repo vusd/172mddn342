@@ -8,13 +8,14 @@
  * FaceMap class - holds all informaiton about one mapped
  * face and is able to draw itself.
  */
-// other variables can be in here too
-// these control the colors used
-bg_color = [225, 206, 187];
-fg_color = [151, 102, 52];
-stroke_color = [95, 52, 8];
 
-function FaceMap() {
+function FaceMap_MKDD() {
+    // these control the colors used
+    this.bg_color = [225, 206, 187];
+    this.fg_color = [151, 102, 52];
+    this.stroke_color = [95, 52, 8];
+
+
     this.hairColor = 50;
     this.wrinkleWeight = 50;
     this.skinColor = 50;
@@ -144,7 +145,7 @@ function FaceMap() {
         var brow_height_right = (distanceBetween(brow_outer_r, brow_upper_r) + distanceBetween(brow_inner_r, brow_upper_r)) / 4;
         var brow_width_right = distanceBetween(brow_outer_r, brow_inner_r) * 0.7;
         var brow_width_left = distanceBetween(brow_outer_l, brow_inner_l) * 0.7;
-        console.log(curHairColor);
+        // console.log(curHairColor);
         var brow_color = curHairColor;
         var brow_outline = curHairColor*0.95;
         push();
@@ -305,8 +306,8 @@ function FaceMap() {
         function toms_face() {
 
             // head
-            stroke(stroke_color);
-            fill(fg_color);
+            stroke(this.stroke_color);
+            fill(this.fg_color);
             beginShape();
             for (var i = 0; i < positions.chin.length; i++) {
                 vertex(positions.chin[i][0], positions.chin[i][1]);
@@ -321,7 +322,7 @@ function FaceMap() {
 
             // mouth
             noStroke();
-            fill(bg_color);
+            fill(this.bg_color);
             beginShape();
             for (var i = 0; i < positions.top_lip.length; i++) {
                 vertex(positions.top_lip[i][0], positions.top_lip[i][1]);
@@ -353,11 +354,11 @@ function FaceMap() {
             }
             endShape(CLOSE);
 
-            fill(fg_color);
+            fill(this.fg_color);
             ellipse(eye1_pos[0], eye1_pos[1], 16 * scale, 16 * scale);
             ellipse(eye2_pos[0], eye2_pos[1], 16 * scale, 16 * scale);
 
-            fill(stroke_color);
+            fill(this.stroke_color);
             beginShape();
             for (var i = 0; i < positions.right_eyebrow.length; i++) {
                 vertex(positions.right_eyebrow[i][0], positions.right_eyebrow[i][1]);
