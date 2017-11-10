@@ -145,12 +145,9 @@ function FaceMap_hannahdockerty2() {
 
       translate(this.eyePos[0] + profileOffset_r, this.eyePos[1]);
       scale(profileScaleOffset_r, 1.3);
-      drawEye(this.eyeCol_val, this.skinColors, this.feminine, this.browPos_val, this.sCol_val, this.squint_val, this.lookPos_val);
+      drawEye(-1, this.eyeCol_val, this.skinColors, this.feminine, this.browPos_val, this.sCol_val, this.squint_val, this.lookPos_val);
         //eye highlight
-      for (var i = 0.08; i > 0; i-=0.01){
-        fill(255, 255, 255, 50);
-        ellipse(-0.05, -0.05, i);
-      }
+
       if (this.feminine > 50){
       drawCheeks(-this.eyePos[0]+0.5, this.cheek[1]);
       }
@@ -165,12 +162,9 @@ function FaceMap_hannahdockerty2() {
       translate(-this.eyePos[0] + profileOffset_l, this.eyePos[1]);
 
       scale(profileScaleOffset_l, 1.3);
-      drawEye(this.eyeCol_val, this.skinColors, this.feminine, this.browPos_val, this.sCol_val, this.squint_val, -this.lookPos_val);
+      drawEye(1, this.eyeCol_val, this.skinColors, this.feminine, this.browPos_val, this.sCol_val, this.squint_val, -this.lookPos_val);
         //eye highlight
-      for (var i = 0.08; i > 0; i-=0.01){
-        fill(255, 255, 255, 50);
-        ellipse(0.05, -0.05, i);
-      }
+
         if (this.feminine > 50){
       drawCheeks(this.eyePos[0]-1.1, this.cheek[1]);
       }
@@ -207,7 +201,7 @@ function FaceMap_hannahdockerty2() {
 
 
 
-  function drawEye(eyeColor, skinColors, feminine, grumpiness, eyelidCol, squint, lookPos){
+  function drawEye(reverse, eyeColor, skinColors, feminine, grumpiness, eyelidCol, squint, lookPos){
 
     push();
     scale(1.2);
@@ -247,9 +241,15 @@ function FaceMap_hannahdockerty2() {
       fill(0);
       ellipse(0 + lookPos, -0.025, 0.1, 0.1);
     }
-        //rest styling
+            //reset styling
     noStroke();
     colorMode(RGB);
+
+    //draw highlight
+     for (var i = 0.08; i > 0; i-=0.01){
+        fill(255, 255, 255, 50);
+        ellipse(-0.05*reverse, -0.05, i);
+      }
 
 
 

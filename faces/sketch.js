@@ -68,8 +68,9 @@ function getCurFaceMap() {
 
 function preload () {
   extraFaceData = loadJSON('face_data.json');
+  trainData = loadJSON('train_data.json');
   trainData = loadJSON('rafd_train.json');
-  validData = loadJSON('valid_data.json');
+  // validData = loadJSON('valid_data.json');
   for(var i=0; i<submissions.length;i++) {
     var curKey = submissions[i];
     var sourceFile = "submissions/" + curKey + ".json"
