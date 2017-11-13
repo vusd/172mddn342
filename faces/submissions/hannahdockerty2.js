@@ -11,7 +11,7 @@ function FaceMap_hannahdockerty2() {
 
      
      this.cheekWidth_val = map(this.smile, 0, 100, 0.95, 1.1);
-     this.facialHair_val = int(map(this.facialHair, 0, 100, 5, 255));
+     this.backgroundCol_val = int(map(this.backgroundCol, 0, 100, 0, 255));
      this.browPos_val = map(this.browPosition, 0, 100, -0.1, 0.2);
      this.browRot_val = map(this.browPosition, 0, 100, 0, -8);
      this.profile_val = int(map(this.profile, 0, 100, 0.5, 2.5));
@@ -76,12 +76,12 @@ function FaceMap_hannahdockerty2() {
   }
   
   //draw background
-  // noStroke();
-  // rectMode(CENTER);
-  // colorMode(HSB);
-  // fill(200, 20, this.backgroundCol);
-  // rect(0, -1, 5, 8);
-  // colorMode(RGB);
+  noStroke();
+  rectMode(CENTER);
+  colorMode(HSB);
+  fill(this.backgroundCol_val, 30, 50);
+  rect(0, -1, 5, 8);
+  colorMode(RGB);
 
 
   //draw face shape
@@ -468,7 +468,7 @@ function FaceMap_hannahdockerty2() {
     properties[5] = this.profile;
     properties[6] = this.eyeCol;
     properties[7] = this.squint;
-    properties[8] = this.eyePosition;
+    properties[8] = this.lookPosition;
     properties[9] = this.backgroundCol;
 
 

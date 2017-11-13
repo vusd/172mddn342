@@ -1,0 +1,131 @@
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.js"></script>
+    <script src="z_clmtrackr.js"></script>
+    <script src="z_model_pca_20_svm.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.0/seedrandom.min.js"></script>
+    <script src="https://d3js.org/d3-random.v1.min.js"></script>
+    <script language="javascript" type="text/javascript" src="purview_helper.js"></script>
+    <script language="javascript" type="text/javascript" src="focused_random.js"></script>
+    <script language="javascript" type="text/javascript" src="kdTree.js"></script>
+    <script language="javascript" type="text/javascript" src="face.js"></script>
+    <!-- *** submissions *** -->
+    <script language="javascript" type="text/javascript" src="submissions/alteste.js"></script>
+    <script language="javascript" type="text/javascript" src="submissions/christinapetris.js"></script>
+    <script language="javascript" type="text/javascript" src="submissions/hannahdockerty.js"></script>
+    <script language="javascript" type="text/javascript" src="submissions/hannahdockerty2.js"></script>
+    <script language="javascript" type="text/javascript" src="submissions/MKDD.js"></script>
+    <script language="javascript" type="text/javascript" src="submissions/PPYYInvisible.js"></script>
+    <script language="javascript" type="text/javascript" src="sketch.js"></script>
+
+    <style>
+        body   { padding: 0; margin: 0; }
+        .inner { position: absolute; }
+        #controls {
+            font: 300 12px "Helvetica Neue";
+            padding: 5;
+            margin: 5;
+            background: #f0f0f0;
+            opacity: 0.0;
+            -webkit-transition: opacity 0.2s ease;
+            -moz-transition: opacity 0.2s ease;
+            -o-transition: opacity 0.2s ease;
+            -ms-transition: opacity 0.2s ease;
+        }
+        #controls:hover { opacity: 0.9; }
+    </style>
+
+</head>
+<body style="background-color:white">
+    <div class="outer">
+        <div class="inner" id="controls" height="500">
+            <table>
+                <tr>
+                    <td>Skin Tone</td>
+                    <td id="slider1Container"></td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td id="slider2Container"></td>
+                </tr>
+                <tr>
+                    <td>Open Mouth</td>
+                    <td id="slider3Container"></td>
+                </tr>
+                <tr>
+                    <td>Smile</td>
+                    <td id="slider4Container"></td>
+                </tr>
+                <tr>
+                    <td>Eyebrows</td>
+                    <td id="slider5Container"></td>
+                </tr>
+                <tr>
+                    <td>Profile</td>
+                    <td id="slider6Container"></td>
+                </tr>
+                <tr>
+                    <td>Eye Color</td>
+                    <td id="slider7Container"></td>
+                </tr>
+                <tr>
+                    <td>Blink</td>
+                    <td id="slider8Container"></td>
+                </tr>
+                <tr>
+                    <td>Eye Position</td>
+                    <td id="slider9Container"></td>
+                </tr>
+                <tr>
+                    <td>Background Color</td>
+                    <td id="slider10Container"></td>
+                </tr>
+                <tr>
+                    <td>setting 11</td>
+                    <td id="slider11Container"></td>
+                </tr>
+                <tr>
+                    <td>setting 12</td>
+                    <td id="slider12Container"></td>
+                </tr>
+                <tr>
+                </tr>
+                <tr>
+                    <td>show target</td>
+                    <td id="sliderTintContainer"></td>
+                </tr>
+                <tr>
+                    <td>Submission</td>
+                    <td id="selector1Container"></td>
+                </tr>
+                <tr>
+                    <td>Draw function</td>
+                    <td id="selector2Container"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="button1Container"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="button2Container"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="button3Container"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="button4Container"></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <div id="canvasContainer"></div>
+        </div>
+    </div>
+    <pre>
+        <p id="output">
+        </p>
+    </pre>
+</body>
