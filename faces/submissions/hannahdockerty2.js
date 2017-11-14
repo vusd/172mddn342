@@ -79,7 +79,7 @@ function FaceMap_hannahdockerty2() {
   noStroke();
   rectMode(CENTER);
   colorMode(HSB);
-  fill(this.backgroundCol_val, 30, 50);
+  fill(this.backgroundCol_val, this.background_saturation, this.background_brightness);
   rect(0, -1, 5, 8);
   colorMode(RGB);
 
@@ -454,12 +454,13 @@ function FaceMap_hannahdockerty2() {
     this.squint = settings[7];
     this.lookPosition = settings[8];
     this.backgroundCol = settings[9];
-
+    this.background_brightness = settings[10];
+    this.background_saturation = settings[11];
   }
 
   /* get internal properties as list of numbers 0-100 */
   this.getProperties = function() {
-    properties = new Array(10);
+    properties = new Array(12);
     properties[0] = this.skinTone;
     properties[1] = this.feminine;
     properties[2] = this.mouth_open;
@@ -470,7 +471,8 @@ function FaceMap_hannahdockerty2() {
     properties[7] = this.squint;
     properties[8] = this.lookPosition;
     properties[9] = this.backgroundCol;
-
+    properties[10] = this.background_brightness;
+    properties[11] = this.background_saturation;
 
     return properties;
   }
